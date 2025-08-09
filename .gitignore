@@ -2,6 +2,7 @@
 mmCIF/
 ds_cache/
 .vscode/
+.config
 ckpt/
 multirun/
 wandb/

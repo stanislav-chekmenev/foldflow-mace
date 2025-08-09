@@ -208,6 +208,47 @@ def compute_scrmsd_per_length(sample_results):
     return mean_scrmsd
 
 
+def find_best_sample_per_length(sample_results):
+    """
+    Finds the sample path with the lowest scRMSD value for each protein length.
+
+    Args:
+        sample_results: dict of {(length_dir, sample_path): DataFrame}
+
+    Returns:
+        best_samples: dict {length_dir: (sample_path, best_rmsd)}
+    """
+    best_samples = {}
+
+    # Group by length_dir
+    length_groups = {}
+    for (length_dir, sample_path), df in sample_results.items():
+        if length_dir not in length_groups:
+            length_groups[length_dir] = []
+        length_groups[length_dir].append((sample_path, df))
+
+    # Find best sample per length
+    for length_dir, samples in length_groups.items():
+        best_rmsd = float("inf")
+        best_sample_path = None
+
+        for sample_path, df in samples:
+            # Skip the first row (index 0) and find minimum RMSD
+            df_filtered = df.drop(0) if len(df) > 1 else df
+            if len(df_filtered) > 0:
+                min_rmsd = df_filtered["rmsd"].min()
+                if min_rmsd < best_rmsd:
+                    best_rmsd = min_rmsd
+                    best_sample_path = sample_path
+
+        if best_sample_path is not None:
+            best_samples[length_dir] = (best_sample_path, best_rmsd)
+        else:
+            best_samples[length_dir] = (None, None)
+
+    return best_samples
+
+
 def compute_mean_std(metric: dict):
     means = list(metric.values())
     means = [m for m in means if m is not None]  # Filter out None values
@@ -217,11 +258,13 @@ def compute_mean_std(metric: dict):
 
 
 if __name__ == "__main__":
-    results_dir = "results/ff2_mace_185k"
+    results_dir = "results/ff2_mace_195k"
     sample_results = collect_sample_results(results_dir)
 
     metrics = {}
     results = {}
+    # Find best sample per length
+    best_samples = find_best_sample_per_length(sample_results)
 
     # Per-length metrics
     metrics["scRMSD"] = compute_scrmsd_per_length(sample_results)
