@@ -52,4 +52,4 @@ graph:
   radius_min_dist: 5
   radius_max_dist: null
   radius_max_num_neighbors: 10
-  max_squared_res_ratio: 0.1
+  max_squared_res_ratio: 0.15
