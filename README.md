@@ -49,6 +49,6 @@ Since I added a switchable equivariant GNN encoder to the base architecture of F
 I experimented with FoldFlow-2 model without any RL finetuning part. That means that I slightly modified the `Experiment` class defined in `train.py`, which allowed it to work with FoldFlow-2 architecture, and used the loss defined for FoldFlow-1 for training. My training experiments ran only on the subset of training examples of around 4K PDB proteins of lengths 200 &dash; 300 amino acids.
 
 
-### Aknowledgments
+### Acknowledgements
 
 I'd like to thank the authors of [FoldFlow](https://github.com/DreamFold/FoldFlow) and [FrameDiff](https://github.com/jasonkyuyim/se3_diffusion) papers and codebases for their work!

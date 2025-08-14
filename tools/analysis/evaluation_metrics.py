@@ -63,7 +63,7 @@ def compute_designability_per_length(sample_results, rmsd_threshold=2.0):
     return designability_fraction
 
 
-def compute_novelty_per_length(sample_results, rmsd_threshold=2.0, novelty_threshold=0.3):
+def compute_novelty_per_length(sample_results, rmsd_threshold=2.0, novelty_threshold=0.5):
     """
     Computes novelty statistics per protein length.
 
